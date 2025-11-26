@@ -1,7 +1,6 @@
 name: Build and Test JavaScript App
 
 on:
-  push:
   pull_request:
 
 jobs:
