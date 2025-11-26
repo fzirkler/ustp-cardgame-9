@@ -1,7 +1,9 @@
 name: Deploy to GitHub Pages
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main   # nur bei Push auf main, kannst du anpassen
 
 permissions:
   contents: read
@@ -9,43 +11,36 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
-    name: Build and deploy
+  build_to_deploy:
     runs-on: ubuntu-latest
-
     steps:
+      # 1. Repository auschecken
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4   # neueste Version
 
+      # 2. Node.js installieren
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: Check GitHub Pages settings
-        env:
-          REPO: ${{ github.repository }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          code=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $TOKEN" https://api.github.com/repos/${REPO}/pages || echo 0)
-          if [ "$code" -eq 403 ]; then
-            echo "GitHub Actions is not authorized to manage Pages for this repository."
-            echo "Please enable Actions permissions in Settings -> Actions and allow Pages deployments."
-            exit 1
-          fi
-
+      # 3. Abhängigkeiten installieren
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        env:
-          GITHUB_PAGES: true
+      # 4. Build ausführen
+      - name: Build project
         run: npm run build
 
-      - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v2
+      # 5. Build-Output für Pages vorbereiten
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./dist   # hier dein Build-Ordner, z. B. "dist" oder "build"
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3
