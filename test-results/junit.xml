@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="7" failures="0" errors="0" time="1.169">
+    <testsuite name="src/__tests__/MemoryCard.test.tsx" timestamp="2025-11-26T15:59:53.358Z" hostname="MacBook-Air-von-Lukas.local" tests="3" failures="0" errors="0" skipped="0" time="0.054">
+        <testcase classname="src/__tests__/MemoryCard.test.tsx" name="MemoryCard &gt; calls onClick when clicked and not disabled" time="0.037">
+        </testcase>
+        <testcase classname="src/__tests__/MemoryCard.test.tsx" name="MemoryCard &gt; does not call onClick when disabled" time="0.013">
+        </testcase>
+        <testcase classname="src/__tests__/MemoryCard.test.tsx" name="MemoryCard &gt; shows icon and matched styles when matched" time="0.003">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/gameUtils.test.ts" timestamp="2025-11-26T15:59:53.358Z" hostname="MacBook-Air-von-Lukas.local" tests="3" failures="0" errors="0" skipped="0" time="0.001">
+        <testcase classname="src/__tests__/gameUtils.test.ts" name="gameUtils &gt; createDeck should return 16 cards with pairs" time="0.001">
+        </testcase>
+        <testcase classname="src/__tests__/gameUtils.test.ts" name="gameUtils &gt; shuffleDeck should shuffle without losing items" time="0">
+        </testcase>
+        <testcase classname="src/__tests__/gameUtils.test.ts" name="gameUtils &gt; formatTime formats mm:ss correctly" time="0">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/__tests__/utils.test.ts" timestamp="2025-11-26T15:59:53.358Z" hostname="MacBook-Air-von-Lukas.local" tests="1" failures="0" errors="0" skipped="0" time="0.004">
+        <testcase classname="src/__tests__/utils.test.ts" name="utils.cn &gt; merges classes and favors later utility for conflicts" time="0.004">
+        </testcase>
+    </testsuite>
+</testsuites>
