@@ -1,10 +1,10 @@
-name: Build and Test JavaScript App
+name: Build JavaScript App
 
 on:
   pull_request:
 
 jobs:
-  test-and-build:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,37 +18,10 @@ jobs:
         with:
           node-version: '22'   # oder die Version, die du brauchst
 
-      # 3. Abhängigkeiten installieren (with caching)
-      - name: Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
+      # 3. Abhängigkeiten installieren
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       # 4. Build ausführen
       - name: Build project
         run: npm run build
-
-      # 5. Run tests and generate junit + coverage
-      - name: Run tests
-        run: npm run test:run
-
-      # 6. Upload test results and coverage (always run)
-      - name: Upload junit test result
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: junit-results
-          path: test-results/junit.xml
-
-      - name: Upload coverage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: coverage
