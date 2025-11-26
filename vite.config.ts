@@ -9,7 +9,10 @@ import { resolve } from 'path'
 const projectRoot = process.env.PROJECT_ROOT || import.meta.dirname
 
 // https://vite.dev/config/
+const githubPagesBase = process.env.GITHUB_PAGES === 'true' ? '/ustp-cardgame-9/' : '/';
+
 export default defineConfig({
+  base: githubPagesBase,
   plugins: [
     react(),
     tailwindcss(),
