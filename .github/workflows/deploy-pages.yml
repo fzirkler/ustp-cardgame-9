@@ -20,13 +20,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
+          # Match your project's node version, but 18 is generally fine for the runner
           node-version: '18'
 
       - name: Check GitHub Pages settings
+        # This step is non-standard but fine for pre-deployment checks
         env:
           REPO: ${{ github.repository }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Use the GITHUB_TOKEN to check permissions for Pages deployment
           code=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token $TOKEN" https://api.github.com/repos/${REPO}/pages || echo 0)
           if [ "$code" -eq 403 ]; then
             echo "GitHub Actions is not authorized to manage Pages for this repository."
@@ -42,10 +45,12 @@ jobs:
           GITHUB_PAGES: true
         run: npm run build
 
+      # --- FIX 1: Updated to v3 to resolve the artifact upload depreciation error ---
       - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
+      # --- FIX 2: Updated to v4 for best practice (latest major version) ---
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
