@@ -1,0 +1,28 @@
+name: Build JavaScript App
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Repository auschecken
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Node.js installieren
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'   # oder die Version, die du brauchst
+
+      # 3. Abhängigkeiten installieren
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Build ausführen
+      - name: Build project
+        run: npm run build
