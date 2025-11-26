@@ -25,3 +25,7 @@ jobs:
       # 4. Build ausführen
       - name: Build project
         run: npm run build
+
+      # 5. Unit Tests ausführen
+      - name: Run unit tests
+        run: npm test
