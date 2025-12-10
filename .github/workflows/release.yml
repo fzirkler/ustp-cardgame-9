@@ -1,0 +1,46 @@
+name: Release-Erstellung und Asset-Upload
+
+on:
+  push:
+    tags:
+      - '*' # Matcht Tags, die mit 'v' beginnen (z.B. v1.0.0, v2.0.0-beta)
+
+jobs:
+  build_and_release:
+    # 💻 Verwenden Sie einen aktuellen Runner
+    runs-on: ubuntu-latest
+    
+    
+    permissions:
+      contents: write 
+    steps:
+      - name: ⬇️ Repository auschecken
+        uses: actions/checkout@v4
+  
+      - name: 🏗️ Node.js Dependencies und Build
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npm run build 
+
+      # 📦 2. Binärdateien zippen
+      - name: 🧱 Binärdateien als ZIP-Datei verpacken
+        run: |
+          
+          zip -r memory-card-game-binaries.zip dist/
+          echo "ZIP-Datei erstellt: memory-card-game-binaries.zip"
+      
+      
+      - name: 📤 GitHub Release erstellen und Assets hochladen
+        uses: softprops/action-gh-release@v2
+        with:
+          
+          name: Release ${{ github.ref_name }}
+          
+          body: |
+            ## Release ${{ github.ref_name }}
+            Die Binärdateien für das Memory-Kartenspiel sind als Asset verfügbar.
+          
+          files: memory-card-game-binaries.zip
+          
